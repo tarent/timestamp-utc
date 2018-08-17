@@ -57,8 +57,14 @@ private static final Logger LOG =
 private static final SimpleDateFormat df =
     new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
 
+private static final String HELLO = "Hello, World!";
+private static final String MEOW = "meow";
+
 private static final String RECORD = "INSERT INTO logs (stamp, message) " +
     "VALUES ('1995-05-25 19:57:43', '4.4BSD-Lite2/COPYRIGHT');";
+private static final String DUMP = "SCRIPT SIMPLE NOSETTINGS";
+private static final String SELBSD = "from LogRow WHERE message LIKE '%BSD%'";
+private static final String CMPBSD = "4.4BSD-Lite2/COPYRIGHT";
 
 private SessionFactory sessionFactory;
 private Session session;
@@ -90,14 +96,10 @@ createSessionFactory()
 {
 	Configuration cfg = new Configuration();
 	cfg.addAnnotatedClass(LogRow.class);
-	cfg.setProperty("hibernate.dialect",
-	    "org.hibernate.dialect.H2Dialect");
-	cfg.setProperty("hibernate.connection.driver_class",
-	    "org.h2.Driver");
-	cfg.setProperty("hibernate.connection.url",
-	    "jdbc:h2:mem:testdb");
-	cfg.setProperty("hibernate.hbm2ddl.auto",
-	    "create");
+	cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+	cfg.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
+	cfg.setProperty("hibernate.connection.url", "jdbc:h2:mem:testdb");
+	cfg.setProperty("hibernate.hbm2ddl.auto", "create");
 	return cfg.buildSessionFactory();
 }
 
@@ -116,12 +118,12 @@ testPos()
 
 	logentry = new LogRow();
 	logentry.setStamp(teststamp);
-	logentry.setMessage("Hello, World!");
+	logentry.setMessage(HELLO);
 	session.save(logentry);
 
 	logentry = new LogRow();
 	logentry.setStamp(teststamp);
-	logentry.setMessage("meow");
+	logentry.setMessage(MEOW);
 	session.save(logentry);
 
 	COMMIT();
@@ -137,9 +139,9 @@ testPos()
 		    df.format(entry.getStamp()),
 		    entry.getMessage()
 		});
-		if ("Hello, World!".equals(entry.getMessage()))
+		if (HELLO.equals(entry.getMessage()))
 			foundHello = true;
-		if ("meow".equals(entry.getMessage()))
+		if (MEOW.equals(entry.getMessage()))
 			foundMeow = true;
 		assertEquals(teststamp.getTime(), entry.getStamp().getTime());
 	}
@@ -152,11 +154,17 @@ testPos()
 
 	LOG.info("BEGIN test database dump {{{");
 	session.doWork(conn -> {
-		ResultSet rs = conn.prepareStatement("SCRIPT SIMPLE NOSETTINGS").executeQuery();
+		ResultSet rs = conn.prepareStatement(DUMP).executeQuery();
 		while (rs.next())
 			LOG.info(rs.getString(1));
 	});
 	LOG.info("END test database dump }}}");
+
+	@SuppressWarnings("unchecked")
+	List<LogRow> d2 = session.createQuery(SELBSD).list();
+	assertEquals(1, d2.size());
+	assertEquals(801431863000L, d2.get(0).getStamp().getTime());
+	assertEquals(CMPBSD, d2.get(0).getMessage());
 }
 
 }
