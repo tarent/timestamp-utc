@@ -61,10 +61,8 @@ static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
     new TimestampWithoutTimezoneTypeDescriptor();
 
 private class ReturnTuple {
-
 	Timestamp timestamp;
 	Calendar calendar;
-
 }
 
 /**

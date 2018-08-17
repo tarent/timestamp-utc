@@ -55,7 +55,8 @@ public static final TimestampWithoutTimezoneType INSTANCE =
  * Constructs the class and overrides the {@link TimestampType} parent’s
  * SQL type descriptor to {@link TimestampWithoutTimezoneTypeDescriptor}.
  */
-public TimestampWithoutTimezoneType()
+public
+TimestampWithoutTimezoneType()
 {
 	super();
 	setSqlTypeDescriptor(TimestampWithoutTimezoneTypeDescriptor.INSTANCE);
