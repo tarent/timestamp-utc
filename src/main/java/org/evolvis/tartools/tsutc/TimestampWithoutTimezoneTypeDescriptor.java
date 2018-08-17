@@ -50,7 +50,7 @@ import java.util.TimeZone;
  */
 final class TimestampWithoutTimezoneTypeDescriptor extends TimestampTypeDescriptor {
 
-private static final long serialVersionUID = -233044568292131044L;
+private static final long serialVersionUID = -1447781774266391738L;
 
 private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
@@ -60,6 +60,13 @@ private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
     new TimestampWithoutTimezoneTypeDescriptor();
 
+private class ReturnTuple {
+
+	Timestamp timestamp;
+	Calendar calendar;
+
+}
+
 /**
  * {@inheritDoc}
  */
@@ -68,21 +75,25 @@ public <X> ValueBinder<X>
 getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
 {
 	return (new BasicBinder<X>(javaTypeDescriptor, this) {
+		private ReturnTuple
+		internalBind(final X value, final WrapperOptions options)
+		{
+			ReturnTuple rv = new ReturnTuple();
+			rv.timestamp = javaTypeDescriptor.unwrap(value,
+			    Timestamp.class, options);
+			rv.calendar = (value instanceof Calendar) ?
+			    (Calendar)value : Calendar.getInstance(UTC);
+			return (rv);
+		}
+
 		@Override
 		protected void
 		doBind(final PreparedStatement st, final X value,
 		    final int index, final WrapperOptions options)
 		throws SQLException
 		{
-			final Timestamp timestamp = javaTypeDescriptor.unwrap(value,
-			    Timestamp.class, options);
-			if (value instanceof Calendar) {
-				st.setTimestamp(index, timestamp,
-				    (Calendar)value);
-			} else {
-				st.setTimestamp(index, timestamp,
-				    Calendar.getInstance(UTC));
-			}
+			final ReturnTuple v = internalBind(value, options);
+			st.setTimestamp(index, v.timestamp, v.calendar);
 		}
 
 		@Override
@@ -91,15 +102,8 @@ getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
 		    final String name, final WrapperOptions options)
 		throws SQLException
 		{
-			final Timestamp timestamp = javaTypeDescriptor.unwrap(value,
-			    Timestamp.class, options);
-			if (value instanceof Calendar) {
-				st.setTimestamp(name, timestamp,
-				    (Calendar)value);
-			} else {
-				st.setTimestamp(name, timestamp,
-				    Calendar.getInstance(UTC));
-			}
+			final ReturnTuple v = internalBind(value, options);
+			st.setTimestamp(name, v.timestamp, v.calendar);
 		}
 	});
 }
