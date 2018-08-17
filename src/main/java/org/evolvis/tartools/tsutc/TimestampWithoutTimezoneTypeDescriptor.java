@@ -128,20 +128,21 @@ getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor)
 
 		@Override
 		protected X
-		doExtract(final CallableStatement statement, final int index,
+		doExtract(final CallableStatement st, final int index,
 		    final WrapperOptions options)
 		throws SQLException
 		{
-			return (javaTypeDescriptor.wrap(statement.getTimestamp(index,
+			return (javaTypeDescriptor.wrap(st.getTimestamp(index,
 			    Calendar.getInstance(UTC)), options));
 		}
 
 		@Override
-		protected X doExtract(final CallableStatement statement,
-		    final String name, final WrapperOptions options)
+		protected X
+		doExtract(final CallableStatement st, final String name,
+		    final WrapperOptions options)
 		throws SQLException
 		{
-			return (javaTypeDescriptor.wrap(statement.getTimestamp(name,
+			return (javaTypeDescriptor.wrap(st.getTimestamp(name,
 			    Calendar.getInstance(UTC)), options));
 		}
 	});
