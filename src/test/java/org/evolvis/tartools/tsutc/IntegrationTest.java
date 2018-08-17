@@ -56,6 +56,9 @@ private static final Logger LOG =
 private static final SimpleDateFormat df =
     new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
 
+private static final String RECORD = "INSERT INTO logs (timestamp, message) " +
+    "VALUES ('1995-05-25 19:57:43', '4.4BSD-Lite2/COPYRIGHT');";
+
 private SessionFactory sessionFactory;
 private Session session;
 private Transaction transaction;
@@ -141,6 +144,10 @@ testPos()
 	}
 	assertTrue(foundHello);
 	assertTrue(foundMeow);
+
+	BEGIN();
+	session.doWork(conn -> conn.createStatement().executeUpdate(RECORD));
+	COMMIT();
 }
 
 }
