@@ -47,6 +47,7 @@
 		<maven.surefire.version>2.17</maven.surefire.version>
 		<!-- dependencies -->
 		<hibernate.version>5.1.0.Final</hibernate.version>
+		<jaxb.version>2.3.0</jaxb.version>
 		<!-- testing -->
 		<mockito.version>2.19.0</mockito.version>
 		<junit.version>4.12</junit.version>
@@ -91,6 +92,12 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
