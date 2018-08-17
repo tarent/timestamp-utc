@@ -33,6 +33,7 @@ import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -148,6 +149,14 @@ testPos()
 	BEGIN();
 	session.doWork(conn -> conn.createStatement().executeUpdate(RECORD));
 	COMMIT();
+
+	LOG.info("BEGIN test database dump {{{");
+	session.doWork(conn -> {
+		ResultSet rs = conn.prepareStatement("SCRIPT SIMPLE NOSETTINGS").executeQuery();
+		while (rs.next())
+			LOG.info(rs.getString(1));
+	});
+	LOG.info("END test database dump }}}");
 }
 
 }
