@@ -57,7 +57,7 @@ private static final Logger LOG =
 private static final SimpleDateFormat df =
     new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
 
-private static final String RECORD = "INSERT INTO logs (timestamp, message) " +
+private static final String RECORD = "INSERT INTO logs (stamp, message) " +
     "VALUES ('1995-05-25 19:57:43', '4.4BSD-Lite2/COPYRIGHT');";
 
 private SessionFactory sessionFactory;
@@ -115,12 +115,12 @@ testPos()
 	assertNotNull(session);
 
 	logentry = new LogRow();
-	logentry.setTimestamp(teststamp);
+	logentry.setStamp(teststamp);
 	logentry.setMessage("Hello, World!");
 	session.save(logentry);
 
 	logentry = new LogRow();
-	logentry.setTimestamp(teststamp);
+	logentry.setStamp(teststamp);
 	logentry.setMessage("meow");
 	session.save(logentry);
 
@@ -134,14 +134,14 @@ testPos()
 	for (LogRow entry : db) {
 		LOG.log(Level.INFO, "LogRow({0}, {1}, ''{2}'')", new Object[] {
 		    entry.getPk(),
-		    df.format(entry.getTimestamp()),
+		    df.format(entry.getStamp()),
 		    entry.getMessage()
 		});
 		if ("Hello, World!".equals(entry.getMessage()))
 			foundHello = true;
 		if ("meow".equals(entry.getMessage()))
 			foundMeow = true;
-		assertEquals(teststamp.getTime(), entry.getTimestamp().getTime());
+		assertEquals(teststamp.getTime(), entry.getStamp().getTime());
 	}
 	assertTrue(foundHello);
 	assertTrue(foundMeow);

@@ -59,11 +59,11 @@ canInstantiateEntity()
 	LogRow logentry = new LogRow();
 
 	logentry.setPk(0L);
-	logentry.setTimestamp(teststamp);
+	logentry.setStamp(teststamp);
 	logentry.setMessage("Hello, World!");
 	LOG.log(Level.INFO, "LogRow({0}, {1}, ''{2}'')", new Object[] {
 	    logentry.getPk(),
-	    df.format(logentry.getTimestamp()),
+	    df.format(logentry.getStamp()),
 	    logentry.getMessage()
 	});
 	/* for IDE fooling */

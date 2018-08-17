@@ -48,7 +48,7 @@ import java.util.Date;
 @Table(name = "logs")
 public class LogRow implements Serializable {
 
-private static final long serialVersionUID = -6263447594919623259L;
+private static final long serialVersionUID = 5259042723540746538L;
 /* for IDE fooling */
 public static final TimestampWithoutTimezoneType myType =
     TimestampWithoutTimezoneType.INSTANCE;
@@ -63,7 +63,7 @@ private Long pk;
 
 @Type(type = "org.evolvis.tartools.tsutc.TimestampWithoutTimezoneType")
 @Column
-private Date timestamp;
+private Date stamp;
 
 @Column
 private String message;
@@ -81,15 +81,15 @@ setPk(final Long newPK)
 }
 
 public Date
-getTimestamp()
+getStamp()
 {
-	return (new Date(timestamp.getTime()));
+	return (new Date(stamp.getTime()));
 }
 
 public void
-setTimestamp(final Date newstamp)
+setStamp(final Date timestamp)
 {
-	timestamp = new Date(newstamp.getTime());
+	stamp = new Date(timestamp.getTime());
 }
 
 public String
