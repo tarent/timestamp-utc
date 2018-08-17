@@ -61,7 +61,7 @@ canInstantiateEntity()
 	logentry.setPk(0L);
 	logentry.setTimestamp(teststamp);
 	logentry.setMessage("Hello, World!");
-	LOG.log(Level.INFO, "LogRow({0}, {1}, '{2}')", new Object[] {
+	LOG.log(Level.INFO, "LogRow({0}, {1}, ''{2}'')", new Object[] {
 	    logentry.getPk(),
 	    df.format(logentry.getTimestamp()),
 	    logentry.getMessage()
