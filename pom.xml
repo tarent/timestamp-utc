@@ -10,8 +10,8 @@
 	<url>https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=tartools/tsutc.git</url>
 	<licenses>
 		<license>
-			<name>MIT licence</name>
-			<url>https://opensource.org/licenses/mit-license.php</url>
+			<name>GNU Lesser General Public License (LGPL), version 2.1 or later</name>
+			<url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
 		</license>
 	</licenses>
 	<developers>
