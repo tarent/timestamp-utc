@@ -1,0 +1,139 @@
+package org.evolvis.tartools.tsutc.entities;
+
+/*-
+ * tsutc (TimestampWithoutTimezone) is Copyright
+ *  © 2016, 2018 mirabilos (t.glaser@tarent.de)
+ * Licensor is tarent solutions GmbH, http://www.tarent.de/
+ *
+ * TimestampWithoutTimezoneTypeDescriptor is a derivative work of
+ * Hibernate, Relational Persistence for Idiomatic Java, 5.1.0.FINAL,
+ * Copyright © 2010, 2011, 2012, 2015, 2016 Red Hat, Inc. (under CLA)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License (as file COPYING in the META-INF directory) along with
+ * this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+import org.evolvis.tartools.tsutc.TimestampWithoutTimezoneType;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Test entity, deliberately in a separate package.
+ *
+ * @author mirabilos (t.glaser@tarent.de)
+ */
+@Entity
+@Table(name = "logs")
+public class LogRow implements Serializable {
+
+private static final long serialVersionUID = -6263447594919623259L;
+/* for IDE fooling */
+public static final TimestampWithoutTimezoneType myType =
+    TimestampWithoutTimezoneType.INSTANCE;
+public static final TimestampWithoutTimezoneType anotherType =
+    new TimestampWithoutTimezoneType();
+
+@Id
+@Generated(GenerationTime.INSERT)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "pk")
+private Long pk;
+
+@Type(type = "org.evolvis.tartools.tsutc.TimestampWithoutTimezoneType")
+@Column
+private Date timestamp;
+
+@Column
+private String message;
+
+public Long
+getPk()
+{
+	return (pk);
+}
+
+public void
+setPk(final Long newPK)
+{
+	pk = newPK;
+}
+
+public Date
+getTimestamp()
+{
+	return (new Date(timestamp.getTime()));
+}
+
+public void
+setTimestamp(final Date newstamp)
+{
+	timestamp = new Date(newstamp.getTime());
+}
+
+public String
+getMessage()
+{
+	return (message);
+}
+
+public void
+setMessage(final String newMessage)
+{
+	message = newMessage;
+}
+
+/* PersistenceObject by Christian Preilowski (c.thiel@tarent.de) */
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public int
+hashCode()
+{
+	if (getPk() == null)
+		return (super.hashCode());
+	return (getPk().hashCode());
+}
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public boolean
+equals(final Object obj)
+{
+	if (this == obj)
+		return (true);
+	if (obj == null)
+		return (false);
+	if (!(getClass().equals(obj.getClass())))
+		return (false);
+	if (getPk() == null)
+		return (super.equals(obj));
+	return (getPk().equals(((LogRow)obj).getPk()));
+}
+
+}

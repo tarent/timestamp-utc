@@ -25,40 +25,47 @@ package org.evolvis.tartools.tsutc;
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import org.hibernate.type.TimestampType;
+import org.evolvis.tartools.tsutc.entities.LogRow;
+import org.junit.Test;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
- * Hibernate type for persisting a (millis-only) java.util.Date
- * as SQL “TIMESTAMP” (aka “TIMESTAMP WITHOUT TIME ZONE”) in UTC.
- *
- * Sample use in an Entity:
- *
- * <pre><code>
- * {@literal @}Type(type="org.evolvis.tartools.tsutc.TimestampWithoutTimezoneType")
- * {@literal @}Column(name="update_date")
- * private Date updateDate;
- * </code></pre>
+ * Test class for tsutc, mostly so the classes are not marked as unused.
  *
  * @author mirabilos (t.glaser@tarent.de)
  */
-public final class TimestampWithoutTimezoneType extends TimestampType {
+public class TimestampWithoutTimezoneTest {
 
-private static final long serialVersionUID = 5886290597946668009L;
-
-/**
- * Singleton instance of {@link TimestampWithoutTimezoneType}
- */
-public static final TimestampWithoutTimezoneType INSTANCE =
-    new TimestampWithoutTimezoneType();
+private static final Logger LOG =
+    Logger.getLogger(TimestampWithoutTimezoneTest.class.getName());
 
 /**
- * Constructs the class and overrides the {@link TimestampType} parent’s
- * SQL type descriptor to {@link TimestampWithoutTimezoneTypeDescriptor}.
+ * Pretty stupid test, basically just sees that this does not crash.
  */
-public TimestampWithoutTimezoneType()
+@Test
+public void
+canInstantiateEntity()
 {
-	super();
-	setSqlTypeDescriptor(TimestampWithoutTimezoneTypeDescriptor.INSTANCE);
+	final Date teststamp = new Date(System.currentTimeMillis());
+	LogRow logentry = new LogRow();
+
+	logentry.setPk(0L);
+	logentry.setTimestamp(teststamp);
+	logentry.setMessage("Hello, World!");
+	LOG.log(Level.INFO, "LogRow({0}, {1}, '{2}')", new Object[] {
+	    logentry.getPk(),
+	    DateTimeFormatter.ISO_ZONED_DATE_TIME.format(logentry.getTimestamp().toInstant()),
+	    logentry.getMessage()
+	});
+	/* for IDE fooling */
+	assertNotNull(LogRow.myType);
+	assertNotNull(LogRow.anotherType);
 }
 
 }

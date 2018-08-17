@@ -50,9 +50,14 @@ import java.util.TimeZone;
  */
 final class TimestampWithoutTimezoneTypeDescriptor extends TimestampTypeDescriptor {
 
-private static final long serialVersionUID = 8557684627086277610L;
+private static final long serialVersionUID = -233044568292131044L;
+
 private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-public static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
+
+/**
+ * Singleton instance of {@link TimestampWithoutTimezoneTypeDescriptor}
+ */
+static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
     new TimestampWithoutTimezoneTypeDescriptor();
 
 /**
@@ -62,7 +67,7 @@ public static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
 public <X> ValueBinder<X>
 getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
 {
-	return new BasicBinder<X>(javaTypeDescriptor, this) {
+	return (new BasicBinder<X>(javaTypeDescriptor, this) {
 		@Override
 		protected void
 		doBind(final PreparedStatement st, final X value,
@@ -96,7 +101,7 @@ getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
 				    Calendar.getInstance(UTC));
 			}
 		}
-	};
+	});
 }
 
 /**
@@ -106,15 +111,15 @@ getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
 public <X> ValueExtractor<X>
 getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor)
 {
-	return new BasicExtractor<X>(javaTypeDescriptor, this) {
+	return (new BasicExtractor<X>(javaTypeDescriptor, this) {
 		@Override
 		protected X
 		doExtract(final ResultSet rs, final String name,
 		    final WrapperOptions options)
 		throws SQLException
 		{
-			return javaTypeDescriptor.wrap(rs.getTimestamp(name,
-			    Calendar.getInstance(UTC)), options);
+			return (javaTypeDescriptor.wrap(rs.getTimestamp(name,
+			    Calendar.getInstance(UTC)), options));
 		}
 
 		@Override
@@ -123,8 +128,8 @@ getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor)
 		    final WrapperOptions options)
 		throws SQLException
 		{
-			return javaTypeDescriptor.wrap(statement.getTimestamp(index,
-			    Calendar.getInstance(UTC)), options);
+			return (javaTypeDescriptor.wrap(statement.getTimestamp(index,
+			    Calendar.getInstance(UTC)), options));
 		}
 
 		@Override
@@ -132,10 +137,10 @@ getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor)
 		    final String name, final WrapperOptions options)
 		throws SQLException
 		{
-			return javaTypeDescriptor.wrap(statement.getTimestamp(name,
-			    Calendar.getInstance(UTC)), options);
+			return (javaTypeDescriptor.wrap(statement.getTimestamp(name,
+			    Calendar.getInstance(UTC)), options));
 		}
-	};
+	});
 }
 
 }
