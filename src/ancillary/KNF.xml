@@ -73,6 +73,7 @@
     <option name="BLANK_LINES_BEFORE_PACKAGE" value="1" />
     <option name="BLANK_LINES_AROUND_METHOD_IN_INTERFACE" value="0" />
     <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
+    <option name="BLANK_LINES_BEFORE_CLASS_END" value="1" />
     <option name="METHOD_BRACE_STYLE" value="2" />
     <option name="DO_NOT_INDENT_TOP_LEVEL_CLASS_MEMBERS" value="true" />
     <option name="INDENT_CASE_FROM_SWITCH" value="false" />
