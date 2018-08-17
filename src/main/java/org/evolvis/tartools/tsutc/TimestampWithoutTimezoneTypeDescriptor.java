@@ -24,62 +24,93 @@ import java.util.TimeZone;
  * @author Steve Ebersole
  */
 final class TimestampWithoutTimezoneTypeDescriptor extends TimestampTypeDescriptor {
-    private static final long serialVersionUID = -4069550993182675748L;
-    private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-    public static final TimestampWithoutTimezoneTypeDescriptor INSTANCE = new TimestampWithoutTimezoneTypeDescriptor();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <X> ValueBinder<X> getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor) {
-        return new BasicBinder<X>(javaTypeDescriptor, this) {
-            @Override
-            protected void doBind(final PreparedStatement st, final X value, final int index, final WrapperOptions options)
-              throws SQLException {
-                final Timestamp timestamp = javaTypeDescriptor.unwrap(value, Timestamp.class, options);
-                if (value instanceof Calendar) {
-                    st.setTimestamp(index, timestamp, (Calendar) value);
-                } else {
-                    st.setTimestamp(index, timestamp, Calendar.getInstance(UTC));
-                }
-            }
+private static final long serialVersionUID = 8557684627086277610L;
+private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+public static final TimestampWithoutTimezoneTypeDescriptor INSTANCE =
+    new TimestampWithoutTimezoneTypeDescriptor();
 
-            @Override
-            protected void doBind(final CallableStatement st, final X value, final String name, final WrapperOptions options)
-              throws SQLException {
-                final Timestamp timestamp = javaTypeDescriptor.unwrap(value, Timestamp.class, options);
-                if (value instanceof Calendar) {
-                    st.setTimestamp(name, timestamp, (Calendar) value);
-                } else {
-                    st.setTimestamp(name, timestamp, Calendar.getInstance(UTC));
-                }
-            }
-        };
-    }
+/**
+ * {@inheritDoc}
+ */
+@Override
+public <X> ValueBinder<X>
+getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor)
+{
+	return new BasicBinder<X>(javaTypeDescriptor, this) {
+		@Override
+		protected void
+		doBind(final PreparedStatement st, final X value,
+		    final int index, final WrapperOptions options)
+		throws SQLException
+		{
+			final Timestamp timestamp = javaTypeDescriptor.unwrap(value,
+			    Timestamp.class, options);
+			if (value instanceof Calendar) {
+				st.setTimestamp(index, timestamp,
+				    (Calendar)value);
+			} else {
+				st.setTimestamp(index, timestamp,
+				    Calendar.getInstance(UTC));
+			}
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <X> ValueExtractor<X> getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor) {
-        return new BasicExtractor<X>(javaTypeDescriptor, this) {
-            @Override
-            protected X doExtract(final ResultSet rs, final String name, final WrapperOptions options) throws SQLException {
-                return javaTypeDescriptor.wrap(rs.getTimestamp(name, Calendar.getInstance(UTC)), options);
-            }
+		@Override
+		protected void
+		doBind(final CallableStatement st, final X value,
+		    final String name, final WrapperOptions options)
+		throws SQLException
+		{
+			final Timestamp timestamp = javaTypeDescriptor.unwrap(value,
+			    Timestamp.class, options);
+			if (value instanceof Calendar) {
+				st.setTimestamp(name, timestamp,
+				    (Calendar)value);
+			} else {
+				st.setTimestamp(name, timestamp,
+				    Calendar.getInstance(UTC));
+			}
+		}
+	};
+}
 
-            @Override
-            protected X doExtract(final CallableStatement statement, final int index, final WrapperOptions options)
-              throws SQLException {
-                return javaTypeDescriptor.wrap(statement.getTimestamp(index, Calendar.getInstance(UTC)), options);
-            }
+/**
+ * {@inheritDoc}
+ */
+@Override
+public <X> ValueExtractor<X>
+getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor)
+{
+	return new BasicExtractor<X>(javaTypeDescriptor, this) {
+		@Override
+		protected X
+		doExtract(final ResultSet rs, final String name,
+		    final WrapperOptions options)
+		throws SQLException
+		{
+			return javaTypeDescriptor.wrap(rs.getTimestamp(name,
+			    Calendar.getInstance(UTC)), options);
+		}
 
-            @Override
-            protected X doExtract(final CallableStatement statement, final String name, final WrapperOptions options)
-              throws SQLException {
-                return javaTypeDescriptor.wrap(statement.getTimestamp(name, Calendar.getInstance(UTC)), options);
-            }
-        };
-    }
+		@Override
+		protected X
+		doExtract(final CallableStatement statement, final int index,
+		    final WrapperOptions options)
+		throws SQLException
+		{
+			return javaTypeDescriptor.wrap(statement.getTimestamp(index,
+			    Calendar.getInstance(UTC)), options);
+		}
+
+		@Override
+		protected X doExtract(final CallableStatement statement,
+		    final String name, final WrapperOptions options)
+		throws SQLException
+		{
+			return javaTypeDescriptor.wrap(statement.getTimestamp(name,
+			    Calendar.getInstance(UTC)), options);
+		}
+	};
+}
+
 }

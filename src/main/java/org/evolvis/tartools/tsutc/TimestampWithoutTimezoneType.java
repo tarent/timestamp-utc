@@ -17,15 +17,19 @@ import org.hibernate.type.TimestampType;
  * @author mirabilos (t.glaser@tarent.de)
  */
 public final class TimestampWithoutTimezoneType extends TimestampType {
-    private static final long serialVersionUID = 1579882833495519695L;
-    public static final TimestampWithoutTimezoneType INSTANCE = new TimestampWithoutTimezoneType();
 
-    /**
-     * Constructs the class and overrides the {@link TimestampType} parent’s
-     * SQL type descriptor to {@link TimestampWithoutTimezoneTypeDescriptor}.
-     */
-    public TimestampWithoutTimezoneType() {
-        super();
-        setSqlTypeDescriptor(TimestampWithoutTimezoneTypeDescriptor.INSTANCE);
-    }
+private static final long serialVersionUID = 5886290597946668009L;
+public static final TimestampWithoutTimezoneType INSTANCE =
+    new TimestampWithoutTimezoneType();
+
+/**
+ * Constructs the class and overrides the {@link TimestampType} parent’s
+ * SQL type descriptor to {@link TimestampWithoutTimezoneTypeDescriptor}.
+ */
+public TimestampWithoutTimezoneType()
+{
+	super();
+	setSqlTypeDescriptor(TimestampWithoutTimezoneTypeDescriptor.INSTANCE);
+}
+
 }
