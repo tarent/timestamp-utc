@@ -12,6 +12,10 @@ set -o pipefail
 cd "$(dirname "$0")"
 
 for x in *.xml; do
+	if [[ ! -e $x ]]; then
+		print -r -- "E: ${x@Q} does not exist!"
+		exit 1
+	fi
 	print -nr -- "I: Processing $x…"
 	x=${x%.xml}
 
