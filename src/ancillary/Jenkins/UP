@@ -1,8 +1,28 @@
 #!/usr/bin/env mksh
 # -*- mode: sh -*-
+#-
+# Copyright © 2016, 2017, 2018
+#	mirabilos <t.glaser@tarent.de>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un‐
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person’s immediate fault when using the work as intended.
+#-
+# Update all locally-existing *.xml files from the same directory as
+# this script from a remote Jenkins’ job configuration (needs root).
 
-# needs root on remote system
-# updates all config files that already exist locally
+jenkins=ci-busyapps.lan.tarent.de
 
 LC_ALL=C; export LC_ALL
 unset LANGUAGE
@@ -19,7 +39,7 @@ for x in *.xml; do
 	print -nr -- "I: Processing $x…"
 	x=${x%.xml}
 
-	ssh -n -l root ci-busyapps.lan.tarent.de "
+	ssh -n -l root $jenkins "
 		cat /var/lib/jenkins/jobs/${x@Q}/config.xml
 		echo
 	    " | sed --posix \
