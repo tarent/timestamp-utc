@@ -28,8 +28,9 @@ package org.evolvis.tartools.tsutc;
 import org.evolvis.tartools.tsutc.entities.LogRow;
 import org.junit.Test;
 
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +45,8 @@ public class TimestampWithoutTimezoneTest {
 
 private static final Logger LOG =
     Logger.getLogger(TimestampWithoutTimezoneTest.class.getName());
+private static final SimpleDateFormat df =
+    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
 
 /**
  * Pretty stupid test, basically just sees that this does not crash.
@@ -60,7 +63,7 @@ canInstantiateEntity()
 	logentry.setMessage("Hello, World!");
 	LOG.log(Level.INFO, "LogRow({0}, {1}, '{2}')", new Object[] {
 	    logentry.getPk(),
-	    DateTimeFormatter.ISO_ZONED_DATE_TIME.format(logentry.getTimestamp().toInstant()),
+	    df.format(logentry.getTimestamp()),
 	    logentry.getMessage()
 	});
 	/* for IDE fooling */
