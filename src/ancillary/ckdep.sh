@@ -58,7 +58,7 @@ done >ckdep.tmp
 {
 	comm -13 ckdep.lst ckdep.tmp | sed 's/ ok$/ TO''DO/'
 	comm -12 ckdep.lst ckdep.tmp
-} | sort -o ckdep.tmp
+} | sort -uo ckdep.tmp
 
 # check if the list changed
 if cmp -s ckdep.lst ckdep.tmp; then
