@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.evolvis.tartools</groupId>
+		<artifactId>maven-parent</artifactId>
+		<version>0.1</version>
+	</parent>
 	<groupId>org.evolvis.tartools</groupId>
 	<artifactId>timestamp-utc</artifactId>
 	<version>1.1-SNAPSHOT</version>
@@ -23,28 +28,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sonar.sources>src/main</sonar.sources>
-		<sonar.tests>src/test</sonar.tests>
-		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-		<build.timestamp>${maven.build.timestamp}</build.timestamp>
-		<releaseVersion>${project.version}</releaseVersion>
 		<archiver.copyright>Copyright © 2016, 2018 mirabilos; Licensor: tarent solutions GmbH</archiver.copyright>
-		<javaRelease>8</javaRelease>
-		<doclint.optappend>-Xdoclint:all</doclint.optappend>
-		<!-- maven plugins -->
-		<maven.assembly.version>2.6</maven.assembly.version>
-		<maven.compiler.version>3.7.0</maven.compiler.version>
-		<maven.deploy.version>2.8.2</maven.deploy.version>
-		<maven.enforcer.version>1.4.1</maven.enforcer.version>
-		<maven.exec.version>1.4.0</maven.exec.version>
-		<maven.jacoco.version>0.8.1</maven.jacoco.version>
-		<maven.jar.version>2.6</maven.jar.version>
-		<maven.javadoc.version>3.0.1</maven.javadoc.version>
-		<maven.mycila.version>3.0</maven.mycila.version>
-		<maven.release.version>2.5.3</maven.release.version>
-		<maven.source.version>2.4</maven.source.version>
-		<maven.surefire.version>2.19</maven.surefire.version>
 		<!-- dependencies -->
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<jaxb.version>2.3.0</jaxb.version>
@@ -101,67 +85,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<profiles>
-		<profile>
-			<id>jdk8orolder</id>
-			<activation>
-				<jdk>(,9)</jdk>
-			</activation>
-			<properties>
-				<maven.compiler.version>3.5.1</maven.compiler.version>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<configuration>
-							<additionalparam>${doclint.optappend}</additionalparam>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>jdk9ornewer</id>
-			<activation>
-				<jdk>[9,)</jdk>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<configuration>
-							<additionalparam>-html4 ${doclint.optappend}</additionalparam>
-							<javadocExecutable>/usr/bin</javadocExecutable>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>gpg</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
@@ -179,101 +102,6 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>${maven.exec.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${maven.jacoco.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>com.mycila</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>${maven.mycila.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${maven.assembly.version}</version>
-					<configuration>
-						<tarLongFileMode>posix</tarLongFileMode>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven.compiler.version}</version>
-					<configuration>
-						<source>1.${javaRelease}</source>
-						<target>1.${javaRelease}</target>
-						<release>${javaRelease}</release>
-						<encoding>${project.build.sourceEncoding}</encoding>
-						<compilerArgs>
-							<arg>-Xlint</arg>
-						</compilerArgs>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>${maven.deploy.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>${maven.enforcer.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>${maven.jar.version}</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							</manifest>
-							<manifestEntries>
-								<Build-Job>${JOB_NAME}</Build-Job>
-								<Build-Id>${BUILD_ID}</Build-Id>
-								<Build-Number>${BUILD_NUMBER}</Build-Number>
-								<Build-Repository-Rev>${GIT_COMMIT}</Build-Repository-Rev>
-								<Build-Time>${maven.build.timestamp}</Build-Time>
-								<version_name>${project.artifactId}</version_name>
-								<version_description>${project.description}</version_description>
-								<version_copyright>${archiver.copyright}</version_copyright>
-								<version_vendor>tarent solutions GmbH (www.tarent.de)</version_vendor>
-								<version_version>${project.version}</version_version>
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven.javadoc.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven.release.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven.source.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven.surefire.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<inherited>false</inherited>
@@ -282,109 +110,10 @@
 				<configuration>
 					<basedir>${project.basedir}</basedir>
 					<header>${project.basedir}/src/main/resources/META-INF/LICENCE</header>
-					<quiet>false</quiet>
-					<failIfMissing>true</failIfMissing>
-					<aggregate>true</aggregate>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-					<headerDefinitions>
-						<headerDefinition>${project.basedir}/src/ancillary/myc-javapkg.xml</headerDefinition>
-					</headerDefinitions>
-					<mapping>
-						<java>JavaPackage_style</java>
-					</mapping>
-					<useDefaultExcludes>true</useDefaultExcludes>
-					<useDefaultMapping>true</useDefaultMapping>
-					<encoding>UTF-8</encoding>
-					<strictCheck>true</strictCheck>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>DISABLE_FORKED_LIFECYCLE_MSOURCES-13</phase>
-					</execution>
-					<execution>
-						<id>attach-sources-no-fork</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-			</plugin>
-			<!-- JaCoCo: allows code coverage analysis in Sonar -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>jacoco-initialize</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>java.util.logging.config.file</name>
-							<value>src/test/resources/logging.properties</value>
-						</property>
-					</systemProperties>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<!-- Avoid the M.A.D. Gadget vulnerability in certain apache commons-collections versions -->
-								<bannedDependencies>
-									<excludes>
-										<exclude>commons-collections:commons-collections:[3.0,3.2.1]</exclude>
-										<exclude>commons-collections:commons-collections:4.0</exclude>
-									</excludes>
-								</bannedDependencies>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
@@ -398,7 +127,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>src/ancillary/ckdep.sh</executable>
+							<executable>src/main/ancillary/ckdep.sh</executable>
 						</configuration>
 					</execution>
 				</executions>
