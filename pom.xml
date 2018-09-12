@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.evolvis.tartools</groupId>
 		<artifactId>maven-parent</artifactId>
-		<version>0.1</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.evolvis.tartools</groupId>
 	<artifactId>timestamp-utc</artifactId>
@@ -28,7 +28,11 @@
 		</developer>
 	</developers>
 	<properties>
+		<archiver.copyright.firstyear>2016</archiver.copyright.firstyear>
+		<archiver.copyright.lastyear>2018</archiver.copyright.lastyear>
 		<archiver.copyright>Copyright © 2016, 2018 mirabilos; Licensor: tarent solutions GmbH</archiver.copyright>
+		<sonar.sources>src/main</sonar.sources>
+		<sonar.tests>src/test</sonar.tests>
 		<!-- dependencies -->
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<jaxb.version>2.3.0</jaxb.version>
@@ -43,16 +47,6 @@
 		<url>https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=tartools/tsutc.git</url>
 		<tag>HEAD</tag>
 	</scm>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
