@@ -108,7 +108,6 @@
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 				<configuration>
-					<basedir>${project.basedir}</basedir>
 					<header>${project.basedir}/src/main/resources/META-INF/LICENCE</header>
 				</configuration>
 			</plugin>
