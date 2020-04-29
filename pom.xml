@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.evolvis.tartools</groupId>
 		<artifactId>maven-parent</artifactId>
-		<version>1.11</version>
+		<version>1.21</version>
 	</parent>
 	<groupId>org.evolvis.tartools</groupId>
 	<artifactId>timestamp-utc</artifactId>
@@ -29,17 +29,17 @@
 	</developers>
 	<properties>
 		<archiver.copyright.firstyear>2016</archiver.copyright.firstyear>
-		<archiver.copyright.lastyear>2018</archiver.copyright.lastyear>
-		<archiver.copyright>Copyright © 2016, 2018 mirabilos; Licensor: tarent solutions GmbH</archiver.copyright>
+		<archiver.copyright.lastyear>2020</archiver.copyright.lastyear>
+		<archiver.copyright>Copyright © 2016, 2018, 2020 mirabilos; Licensor: tarent solutions GmbH</archiver.copyright>
 		<sonar.sources>src/main</sonar.sources>
 		<sonar.tests>src/test</sonar.tests>
 		<!-- dependencies -->
-		<hibernate.version>5.1.0.Final</hibernate.version>
-		<jaxb.version>2.3.0</jaxb.version>
+		<hibernate.version>5.1.17.Final</hibernate.version>
+		<hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
+		<jaxb.version>2.3.1</jaxb.version>
 		<!-- testing -->
-		<mockito.version>2.19.0</mockito.version>
-		<junit.version>4.12</junit.version>
-		<h2.version>1.4.197</h2.version>
+		<junit.version>4.13</junit.version>
+		<h2.version>1.4.200</h2.version>
 	</properties>
 	<scm>
 		<connection>scm:git:https://evolvis.org/anonscm/git/tartools/tsutc.git</connection>
@@ -73,10 +73,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>${hibernate.jpa.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -120,6 +120,21 @@
 				<configuration>
 					<header>${project.basedir}/src/main/resources/META-INF/LICENCE</header>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>analyse-dependency-usage</id>
+						<configuration>
+							<ignoredUnusedDeclaredDependencies combine.children="append">
+								<!-- used by the tests -->
+								<ignoredUnusedDeclaredDependency>javax.xml.bind:jaxb-api</ignoredUnusedDeclaredDependency>
+							</ignoredUnusedDeclaredDependencies>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
