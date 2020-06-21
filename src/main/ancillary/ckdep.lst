@@ -3,9 +3,9 @@ com.fasterxml:classmate 1.3.4 provided ok
 com.h2database:h2 1.4.200 test ok
 com.sun.istack:istack-commons-runtime 3.0.7 provided ok
 com.sun.xml.fastinfoset:FastInfoset 1.2.15 provided ok
-javax.activation:javax.activation-api 1.2.0 provided ok
-javax.persistence:javax.persistence-api 2.2 provided ok
-javax.xml.bind:jaxb-api 2.3.1 test ok
+jakarta.activation:jakarta.activation-api 1.2.2 test ok
+jakarta.persistence:jakarta.persistence-api 2.2.3 provided ok
+jakarta.xml.bind:jakarta.xml.bind-api 2.3.3 test ok
 junit:junit 4.13 test ok
 net.bytebuddy:byte-buddy 1.9.11 provided ok
 org.dom4j:dom4j 2.1.3 provided ok
